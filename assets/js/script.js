@@ -45,10 +45,13 @@ var taskFormHandler = function(event) {
     };
 
 
+    localStorage.setItem("tasks", tasks);
+
+
         alert("Task Updated!");
         formEl.removeAttribute("data-task-id");
         document.querySelector("#save-task").textContent = "Add Task";
-      };
+    };
 
     // has data attribute, so get task id and call function to complete edit process
     if (isEdit) {
@@ -63,10 +66,7 @@ var taskFormHandler = function(event) {
     };
   
     createTaskEl(taskDataObj);
-    console.log(taskDataObj);
-    console.log(taskDataObj.status);
-}
-    
+    }
     
 };
 
@@ -94,6 +94,7 @@ var createTaskEl = function(taskDataObj) {
     taskDataObj.id = taskIdCounter;
 
     tasks.push(taskDataObj);
+    localStorage.setItem("tasks", tasks);
 
     //increase task counter for next unique id
     taskIdCounter++;
@@ -185,7 +186,9 @@ var taskStatusChangeHandler = function(event) {
         tasks[i].status = statusValue;
         }
     }
-    console.log(tasks);
+
+    localStorage.setItem("tasks", tasks);
+
 };
 
 var editTask = function(taskId) {
@@ -220,7 +223,14 @@ for (var i = 0; i < tasks.length; i++) {
 
 // reassign tasks array to be the same as updatedTaskArr
 tasks = updatedTaskArr;
+
+localStorage.setItem("tasks", tasks);
+
 };
+
+var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+}
 
 pageContentEl.addEventListener("click", taskButtonHandler);
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
